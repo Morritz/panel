@@ -1,0 +1,156 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<style>
+body
+{
+    background-image: linear-gradient(360deg, blue, white);
+}
+p
+{
+    font-family: Impact;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    font-size: 22px;
+}
+.pole
+{
+    border-radius: 33%;
+    height:50px;
+    width:200px;
+    font-size: 16px;
+}
+#przycisk
+{
+    border-radius: 33%;
+    height:50px;
+    width:200px;
+    font-size: 16px;
+}
+#panel1
+{
+    background-color:beige;
+    border-style: groove;
+    border-width: thin;
+    min-width:100px;
+    min-height:100px;
+}
+
+</style>
+<body>
+<p style="font-size:72px; text-align:center">Panel</p>
+<table align="center">
+        <tr>
+        <td>
+        <table align="center">
+                <form id="loginform" action="./login" method="POST">
+                <tr>
+                    <td>
+                        <input class="pole" name="login" type="text" placeholder="Login"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="pole" name="password" type="password" placeholder="Hasło"></input>
+                    </td>
+                </tr>
+                <tr>
+                        <td>
+                            <input id="przycisk" type="submit" value="OK"></input>
+                        </td>
+                    </tr>
+                </form>
+            
+            </table>
+        </td>
+        </tr>
+        <tr>
+        <td>
+                <div id="panel1">
+                        <center>Info</center>
+                        <hr>
+                        <div id="panel2">
+                        
+                        </div>
+                        </div>
+        </td>
+    </tr>
+
+</table>
+</body>
+<script>
+function getstatus()
+{
+    $.ajax({
+    url: '/status',
+    method: 'GET',
+    dataType: 'json',
+    success: function(data){
+        if(data.wpis != null)
+        {
+            var element = document.getElementById("panel2");
+            element.innerHTML = "<b>Obecny wpis:</b> " + data.wpis
+            + "</br><form id='nowywpisform' action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
+        }
+
+      
+    },
+    error: function(data){ 
+
+    }
+  });
+    
+}
+$(function() 
+{
+    getstatus();
+});
+$("#loginform").submit(function(e){
+  e.preventDefault();
+  let form = $(this).serialize();
+  $.ajax({
+    url: '/login',
+    method: 'POST',
+    data: form,
+    dataType: 'json',
+    success: function(data){
+    if (data.logged == true)
+    {
+        var element = document.getElementById("panel2");
+        element.innerHTML = "<b>Obecny wpis:</b> " + data.wpis
+            + "</br><form action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
+    }
+    else
+    {
+        var element = document.getElementById("panel2");
+        element.innerHTML = "Nieprawidłowe dane logowania.";
+    }
+
+      
+    },
+    error: function(data){ 
+        
+    }
+  });
+
+});
+$(document).on('submit','#nowywpisform',function(e){
+  e.preventDefault();
+  let form = $(this).serialize();
+  $.ajax({
+    url: '/wpis',
+    method: 'POST',
+    data: form,
+    dataType: 'json',
+    success: function(data){
+        getstatus();    
+    },
+    error: function(data){ 
+        getstatus();
+    }
+  });
+
+});
+    </script>
