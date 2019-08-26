@@ -91,8 +91,8 @@ function getstatus()
         if(data.wpis != null)
         {
             var element = document.getElementById("panel2");
-            element.innerHTML = "<b>Obecny wpis:</b> " + data.wpis
-            + "</br><form id='nowywpisform' action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
+            element.innerHTML = "<b>Obecny wpis:</b><xmp>" + data.wpis
+            + "</xmp></br><form id='nowywpisform' action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
         }
 
       
@@ -119,8 +119,8 @@ $("#loginform").submit(function(e){
     if (data.logged == true)
     {
         var element = document.getElementById("panel2");
-        element.innerHTML = "<b>Obecny wpis:</b> " + data.wpis
-            + "</br><form action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
+        element.innerHTML = "<b>Obecny wpis:</b><pre>" + data.wpis
+            + "</pre></br><form action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
     }
     else
     {

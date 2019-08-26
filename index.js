@@ -46,43 +46,17 @@ app.get('*', function(req, res){
             break;
     }
     });
-    app.post('/login', function(req, res){
+        app.post('/login', function(req, res){
         console.log(req.body);
         if(req.body.login == baza.login && req.body.password == baza.password)
         {
             baza.cookie=Math.random().toString();
             baza.cookie=(baza.cookie).substring(2,(baza.cookie).length);
             zapis('data.json',baza);
-            console.log('logged');
-            console.log(req.cookies['brownie']);
+            console.log('Logowanie udane.');
+            console.log('Obecne ciasteczko: ' + req.cookies['brownie']);
             res.cookie('brownie',(baza.cookie), { maxAge: 5*60*1000, httpOnly: true });
-            console.log('Cookie: ', (baza.cookie));
-            var responsedata = {};
-            responsedata.logged = true;
-            responsedata.wpis = baza.wpis;
-            var responsetext = JSON.stringify(responsedata);
-            res.send(responsetext);
-        }
-        else
-        {
-            var responsedata = {};
-            responsedata.logged = false;
-            var responsetext = JSON.stringify(responsedata);
-            res.send(responsetext);
-        }
-
-        });
-            app.post('/login', function(req, res){
-        console.log(req.body);
-        if(req.body.login == baza.login && req.body.password == baza.password)
-        {
-            baza.cookie=Math.random().toString();
-            baza.cookie=(baza.cookie).substring(2,(baza.cookie).length);
-            zapis('data.json',baza);
-            console.log('logged');
-            console.log(req.cookies['brownie']);
-            res.cookie('brownie',(baza.cookie), { maxAge: 5*60*1000, httpOnly: true });
-            console.log('Cookie: ', (baza.cookie));
+            console.log('Nowe ciasteczko: ', (baza.cookie));
             var responsedata = {};
             responsedata.logged = true;
             responsedata.wpis = baza.wpis;
@@ -101,7 +75,7 @@ app.get('*', function(req, res){
         app.post('/wpis', function(req, res){
             if(req.cookies['brownie'] == baza.cookie)
             {
-                console.log(req.body.nowywpis);
+                console.log("Nowy wpis: " + req.body.nowywpis);
                 baza.wpis = req.body.nowywpis;
                 zapis('data.json',baza);
                 res.sendStatus(200);
