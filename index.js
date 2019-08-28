@@ -1,5 +1,6 @@
 //Przyłączenie modułu Express - framework
 var express = require('express');
+var expressSanitizer = require('express-sanitizer');
 //Obiekt aplikacji
 var app = express();
 //Moduł dodający funkcje związane ze ścieżkami
@@ -9,12 +10,16 @@ var fs = require("fs");
 //Odczytywanie treści z zapytań
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(expressSanitizer());
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 var baza = new Array();
 var zawartosc = fs.readFileSync("data.json");
 baza = JSON.parse(zawartosc);
+
+var sanitizeHtml = require('sanitize-html');
+sanitizeHtml.defaults.allowedTags = [];
 
 //Port aplikacji
 var broadcastport = process.argv[2] || process.env.PORT || 80;
@@ -35,7 +40,7 @@ app.get('*', function(req, res){
             if(req.cookies['brownie'] == baza.cookie)
             {
                 var responsedata = {};
-                responsedata.wpis = baza.wpis;
+                responsedata.wpis = sanitizeHtml(baza.wpis);
                 var responsetext = JSON.stringify(responsedata);
                 res.send(responsetext);
             }
@@ -43,6 +48,9 @@ app.get('*', function(req, res){
             {
                 res.sendStatus(200);
             }   
+            break;
+        case "/style.css":
+            res.sendFile(__dirname + '/style.css');
             break;
     }
     });
@@ -59,7 +67,7 @@ app.get('*', function(req, res){
             console.log('Nowe ciasteczko: ', (baza.cookie));
             var responsedata = {};
             responsedata.logged = true;
-            responsedata.wpis = baza.wpis;
+            responsedata.wpis = sanitizeHtml(baza.wpis);
             var responsetext = JSON.stringify(responsedata);
             res.send(responsetext);
         }

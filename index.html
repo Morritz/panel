@@ -3,42 +3,7 @@
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
-<style>
-body
-{
-    background-image: linear-gradient(360deg, blue, white);
-}
-p
-{
-    font-family: Impact;
-    color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    font-size: 22px;
-}
-.pole
-{
-    border-radius: 33%;
-    height:50px;
-    width:200px;
-    font-size: 16px;
-}
-#przycisk
-{
-    border-radius: 33%;
-    height:50px;
-    width:200px;
-    font-size: 16px;
-}
-#panel1
-{
-    background-color:beige;
-    border-style: groove;
-    border-width: thin;
-    min-width:100px;
-    min-height:100px;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="style.css">
 <body>
 <p style="font-size:72px; text-align:center">Panel</p>
 <table align="center">
@@ -71,8 +36,7 @@ p
                 <div id="panel1">
                         <center>Info</center>
                         <hr>
-                        <div id="panel2">
-                        
+                        <div id="panel2" class="wrap">
                         </div>
                         </div>
         </td>
@@ -91,8 +55,8 @@ function getstatus()
         if(data.wpis != null)
         {
             var element = document.getElementById("panel2");
-            element.innerHTML = "<b>Obecny wpis:</b><xmp>" + data.wpis
-            + "</xmp></br><form id='nowywpisform' action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
+            element.innerHTML = "<b>Obecny wpis:</b></br>" + data.wpis
+            + "<form id='nowywpisform' action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'><input type='submit'></form>";
         }
 
       
@@ -118,9 +82,7 @@ $("#loginform").submit(function(e){
     success: function(data){
     if (data.logged == true)
     {
-        var element = document.getElementById("panel2");
-        element.innerHTML = "<b>Obecny wpis:</b><pre>" + data.wpis
-            + "</pre></br><form action='./wpis' method='POST'><input type='text' class='pole' name='nowywpis' style='height: 32px;'></input><input type='submit'></input></form>";
+        getstatus();
     }
     else
     {

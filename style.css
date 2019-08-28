@@ -1,0 +1,37 @@
+body
+{
+    background-image: linear-gradient(360deg, blue, white);
+}
+p
+{
+    font-family: Impact;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    font-size: 22px;
+}
+.pole
+{
+    border-radius: 33%;
+    height:50px;
+    width:200px;
+    font-size: 16px;
+}
+#przycisk
+{
+    border-radius: 33%;
+    height:50px;
+    width:200px;
+    font-size: 16px;
+}
+#panel1
+{
+    background-color:beige;
+    border-style: groove;
+    border-width: thin;
+    width:250px;
+}
+.wrap
+{
+    width:250px;
+    word-break: break-all
+}
